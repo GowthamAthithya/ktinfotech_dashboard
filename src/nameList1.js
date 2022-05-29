@@ -99,13 +99,14 @@ import { Table, Button, Space } from 'antd';
          <div id="list-nav">
                 <Link className="list-Nav-Btn" to="/nameList1">Name-List-1</Link> 
                 <Link className="list-Nav-Btn" to="/nameList2">Name-List-2</Link>
+                <Link className="list-Nav-Btn" to="/"><li>Logout</li></Link>
         </div>
 
           <Space className='table-btn' style={{ marginBottom: 16 }}>
-            <Button onClick={this.setAgeSort}>Sort age</Button>
-            <Button onClick={this.clearFilters}>Clear filters</Button>
-            <Button onClick={this.clearAll}>Clear filters and sorters</Button>
-            <Button>Name List 1</Button>
+            <Button className='btn' onClick={this.setAgeSort}>Sort age</Button>
+            <Button className='btn' onClick={this.clearFilters}>Clear filters</Button>
+            <Button className='btn' onClick={this.clearAll}>Clear filters and sorters</Button>
+            <Button className='btn'>Name List 1</Button>
           </Space>
           <Table className='table-list' columns={columns} dataSource={data} onChange={this.handleChange} />
         </>

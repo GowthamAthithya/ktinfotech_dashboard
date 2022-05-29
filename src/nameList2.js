@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useState} from 'react'
 import {Link} from "react-router-dom";
 import { Table, Button, Space } from 'antd';
 import 'antd/dist/antd.css';
@@ -31,13 +31,12 @@ const data = [
     },
   ];
   
-  class App extends React.Component {
-    state = {
-      filteredInfo: null,
-      sortedInfo: null,
-    };
-  
-    handleChange = (pagination, filters, sorter) => {
+  const App = () => {
+   const [state, setState] = useState({ 
+    filteredInfo: null,
+    sortedInfo: null,
+  })
+    const handleChange = (pagination, filters, sorter) => {
       console.log('Various parameters', pagination, filters, sorter);
       this.setState({
         filteredInfo: filters,
@@ -45,18 +44,18 @@ const data = [
       });
     };
   
-    clearFilters = () => {
+    const clearFilters = () => {
       this.setState({ filteredInfo: null });
     };
   
-    clearAll = () => {
+    const clearAll = () => {
       this.setState({
         filteredInfo: null,
         sortedInfo: null,
       });
     };
   
-    setAgeSort = () => {
+    const setAgeSort = () => {
       this.setState({
         sortedInfo: {
           order: 'descend',
@@ -64,8 +63,7 @@ const data = [
         },
       });
     };
-  
-    render() {
+    
       let { sortedInfo, filteredInfo } = this.state;
       sortedInfo = sortedInfo || {};
       filteredInfo = filteredInfo || {};
@@ -124,18 +122,19 @@ const data = [
          <div id="list-nav">
                 <Link className="list-Nav-Btn" to="/nameList1">Name-List-1</Link> 
                 <Link className="list-Nav-Btn" to="/nameList2">Name-List-2</Link>
+                <Link className="list-Nav-Btn"><li>Logout</li></Link>
         </div>
 
           <Space className='table-btn' style={{ marginBottom: 16 }}>
-            <Button onClick={this.setAgeSort}>Sort age</Button>
-            <Button onClick={this.clearFilters}>Clear filters</Button>
-            <Button onClick={this.clearAll}>Clear filters and sorters</Button>
-            <Button>Name List 2</Button>
+            <Button className='btn' onClick={setAgeSort}>Sort age</Button>
+            <Button className='btn' onClick={clearFilters}>Clear filters</Button>
+            <Button className='btn' onClick={clearAll}>Clear filters and sorters</Button>
+            <Button className='btn'>Name List 2</Button>
           </Space>
-          <Table className='table-list' columns={columns} dataSource={data} onChange={this.handleChange} />
+          <Table className='table-list' columns={columns} dataSource={data} onChange={handleChange} />
         </>
       );
-    }
+    
   }
 
   

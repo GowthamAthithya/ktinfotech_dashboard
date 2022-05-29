@@ -1,35 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,500;0,700;1,200;1,500&display=swap');
+
 *{
   box-sizing: border-box;
   text-decoration: none;
   font-family: Arial, Helvetica, sans-serif;
   list-style: none;
-  font-size: 105%;
-  color: rgba(146, 79, 45, 0.864);
+  font-family: 'Work Sans', sans-serif;
+  font-size: 18px;
 }
 
-body{
-  background-color: rgba(208, 215, 235, 0.829);
+.headerNav{
+  border-bottom: 1px solid violet;
 }
 
 .nav{
   display: flex;
-  justify-content: space-between;
-  background-color: rgb(36, 39, 41);
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .logo{
-  margin: 10px;
+  margin: 0 0 0 0;
   padding: 10px;
+  text-align: center;
 }
 
 .signin-links{
   margin: 10px;
   padding: 10px;  
+  position: absolute;
+  right: 20px;
+  
 }
 
 .signin-link{
   padding: 0 20px 0 20px;
-  color: white;
+  color: rgb(0, 0, 0);
+}
+
+.companyHeading{
+  margin:10% 0 0 25%;
+  font-size: xx-large;
+  color: rgb(255, 255, 255);
+  font-weight: bolder;
 }
 
 #loginBox{
@@ -41,12 +55,6 @@ body{
   padding: 30px;
 }
 
-.submit-btn{
-  border: 1px solid black;
-  margin: 10px;
-  padding: 2px;
-  text-align: center;
-}
 
 #list-nav{
   display: flex;
@@ -71,6 +79,9 @@ body{
   margin: 0 2% 0 12%;
 }
 
+.label{
+  color: rgba(7, 230, 67, 0.927);
+}
 
 
 

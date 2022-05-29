@@ -1,45 +1,85 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {Link, Router} from 'react-router-dom';
+import HeaderNav from './headernav';
+import {db} from './Firebase/firebase'
+import { addDoc, collection, getDocs} from 'firebase/firestore'
+import { message, Button } from 'antd';
+import {useNavigate} from 'react-router-dom'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
-function adminLogin(){
+
+ 
+const AdminLogin=()=>{
+       
+    const navigate = useNavigate();
+    const [name, setName] = useState();
+    const [password, setPassword] = useState();
+    const [data, setData] = useState();
+    const [admin, setAdmin] = useState();
+
+    const usersRef = collection(db, 'Users')
+    const announcementsRef = collection(db, 'Announcements')
+    const leavesRef = collection(db, 'Leaves')
+    const tasksRef = collection(db, 'Tasks')
+
+       useEffect(async() => {
+        const dataUsers = await getDocs(usersRef);
+        setData(dataUsers.docs.map((doc) => ({...doc.data(),id:doc.id})))
+       }, [])
+          
+       useEffect(() => {
+        const admin = data?.filter(d => d.isAdmin)
+        setAdmin(admin);
+        const emp = data ?.filter(d => !d.isAdmin)
+       }, [data])
+       
+  
+    const handleChange =async (e, type) => { 
+        if(type == 'name') {
+            setName(e.target.value);
+        } else if(type == 'password') {
+            setPassword(e.target.value)
+        }
+     }
+
+     const handleSubmit = async () => { 
+        const loginSuccess = data?.filter(ad => {
+             if(name && ad.name == name && ad.password == password) {
+                 return ad
+             }
+         })
+
+
+         if(loginSuccess.length) {
+             loginSuccess?.map(login =>  {
+            message.success(`Welcome, ${login?.name} `)
+            navigate('/dashboard');
+             })
+             console.log('loginSuccess',loginSuccess);
+             console.log(', JSON.parse(loginSuccess[0])');
+             cookies.set('userData',loginSuccess[0]);
+         } else {
+             message.warning("UserName or password is wrong");
+         }        
+    }
+
     return(
         <div>
-
-            <div className="nav">
-                <div className="logo">
-                <Link to="/">Company Logo</Link>
-                </div>
-                <div className="signin-links">
-                    <Link to="/AdminLogin" className="signin-link">Admin</Link>
-                    <Link to="/login-Page" className="signin-link">SignIn</Link>
-                    <Link to="" className="signin-link">SignUp</Link>
-                </div>
+        <HeaderNav />
+        <div id="loginBox">
+            <div className="form-box"  >
+                <h2>SignIn</h2>
+                <label>User Name</label>
+                <input onChange={(e) => handleChange(e, 'name')} type="text" id="userName" placeholder='username'></input>
+                <label>Password</label>
+                <input onChange={(e) => handleChange(e, 'password')} type="password" id="password" placeholder='password'></input>
+                <button onClick={handleSubmit} class="btn">submit</button>
             </div>
-
-             <div id="loginBox">
-                 <h2>Admin Login</h2>
-            <form action="">
-                <div className="label">
-                    <label for="userName" >User Name</label>
-                </div>
-                <br/> <hr/>
-                <input type="text" id="userName" placeholder='username'></input>
-                <br/> <hr/>
-                <div className="label">
-                    <lable for="password" >Password</lable>
-                </div>
-                <br/> <hr/>
-                <input type="password" id="password" placeholder='password'></input>
-                <br/> <hr/>
-                {/* <input type="submit" to="/listNavigation"></input> */}
-                <div className="submit-btn">
-                <Link to="/nameList1">submit</Link> 
-                </div>
-
-            </form>
         </div>
-        </div>
+
+    </div>
     )
 }
 
-export default adminLogin
+export default AdminLogin
